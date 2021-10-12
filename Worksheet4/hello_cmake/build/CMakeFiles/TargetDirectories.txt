@@ -1,3 +1,0 @@
-C:/2021_20240645/Worksheet4/hello_cmake/build/CMakeFiles/hello.dir
-C:/2021_20240645/Worksheet4/hello_cmake/build/CMakeFiles/edit_cache.dir
-C:/2021_20240645/Worksheet4/hello_cmake/build/CMakeFiles/rebuild_cache.dir
