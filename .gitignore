@@ -2,6 +2,7 @@
 *.vcxproj
 *.vcxproj.filters
 *.sln
+*_autogen/
 
 # Prerequisites
 *.d
