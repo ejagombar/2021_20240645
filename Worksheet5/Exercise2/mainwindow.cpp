@@ -4,18 +4,23 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    // Connect the released() signal of the addButton object to the handleAddButton slot in this object
+    // Your code here to connect button signals ...
+    // Connect the statusUpdateMessage() signal to the showMessage() slot of the status bar
     connect( ui->addButton, &QPushButton::released, this, &MainWindow::handleAddButton );
+
+    connect( this, &MainWindow::statusUpdateMessage, ui->statusBar, &QStatusBar::showMessage );
 }
 
+// Example of slot implementation in mainwindow.cpp---------------------
+void MainWindow::handleAddButton() {
+    // This causes MainWindow to emit the signal that will then be
+    // received by the statusbar's slot
+    emit statusUpdateMessage( QString("Add button was clicked"), 0 );
+}
+// ---------------------------------------------------------------------
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
-void MainWindow::handleAddButton() {
-    QMessageBox msgBox;
-    msgBox.setText("Add button was clicked");
-    msgBox.exec();
-}
