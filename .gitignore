@@ -1,6 +1,7 @@
 #additional files that were found
 *.vcxproj
 *.vcxproj.filters
+*.sln
 
 # Prerequisites
 *.d
