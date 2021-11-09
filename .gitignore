@@ -13,6 +13,8 @@
 *.o
 *.obj
 
+#Others
+out/
 
 # Compiled Dynamic libraries
 *.dll
