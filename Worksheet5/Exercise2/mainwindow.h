@@ -24,6 +24,9 @@ class MainWindow : public QMainWindow {
         void handleRemoveButton();
         void handleInsertButton();
 
+        void handleSaveAction();
+
+
     signals:
         void statusUpdateMessage( const QString & message, int timeout );
 

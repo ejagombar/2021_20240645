@@ -5,6 +5,7 @@
 #include "edititemdialog.h"
 #include <QMessageBox>
 #include "stockitemlistmodel.h"
+#include <QFileDialog>
 
 
 
@@ -22,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect( ui->editButton, &QPushButton::released, this, &MainWindow::handleEditButton );
     connect( ui->removeButton, &QPushButton::released, this, &MainWindow::handleRemoveButton );
     connect( ui->insertButton, &QPushButton::released, this, &MainWindow::handleInsertButton );
+    connect( ui->saveAction, &QAction::triggered, this, &MainWindow::handleSaveAction );
     connect( this, &MainWindow::statusUpdateMessage, ui->statusBar, &QStatusBar::showMessage );
 }
 
@@ -81,6 +83,19 @@ void MainWindow::handleRemoveButton() {
     } else {
         emit statusUpdateMessage( QString("No item selected to remove!"), 0 );
     }
+
+}
+
+void MainWindow::handleSaveAction() {
+    QFileDialog dialog(this);
+
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setViewMode(QFileDialog::Detail);
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    QStringList fileNames;
+    if (dialog.exec())
+        fileNames = dialog.selectedFiles();
+    emit statusUpdateMessage( QString("saved!!!!"), 0 );
 }
 // ---------------------------------------------------------------------
 
