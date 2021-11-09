@@ -51,7 +51,21 @@ void MainWindow::handleEditButton() {
 }
 
 void MainWindow::handleRemoveButton() {
-    emit statusUpdateMessage( QString("Remove button was clicked"), 0 );
+    //StockItem item;
+    //stockList.removeItem( item );
+    //emit statusUpdateMessage( QString("Remove button was clicked"), 0 );
+
+    EditItemDialog dialog( this );
+    QModelIndexList selectedList;
+    selectedList = ui->listView->selectionModel()->selectedIndexes();
+
+    if( selectedList.length() == 1 ) {
+        // selectedList is a list of all selected items in the listView. Since we set its
+        // behaviour to single selection, were only interested in the first selecteded item.
+        stockList.removeItem(selectedList[0]);
+    } else {
+        emit statusUpdateMessage( QString("No item selected to remove!"), 0 );
+    }
 }
 // ---------------------------------------------------------------------
 

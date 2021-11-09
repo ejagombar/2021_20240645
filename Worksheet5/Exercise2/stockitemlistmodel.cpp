@@ -27,7 +27,7 @@ QVariant StockItemListModel::data( const QModelIndex & index, int role ) const {
 // To allow modifying stored list
 void StockItemListModel::addItem( const StockItem & s ) {
     // This emits a signal to warn the listView that extra rows will be added
-    emit beginInsertRows( QModelIndex(), stockItems.size()-1, stockItems.size()-1 );
+    emit beginInsertRows( QModelIndex(), stockItems.size(), stockItems.size() );
     // Add the extra item to the list
     stockItems.push_back( s );
     // Emits a signal to say rows have been added.
@@ -50,7 +50,13 @@ void StockItemListModel::setItem( const StockItem &s, const QModelIndex & index 
 }
 
 void StockItemListModel::removeItem( const QModelIndex & index ) {
-    //?? (~ same as add item)
+    //emit beginInsertRows( QModelIndex(), stockItems.size(), stockItems.size() );
+    emit beginRemoveRows( QModelIndex(), index.row(), index.row());
+
+    // Add the extra item to the list
+    stockItems.erase(stockItems.begin()+index.row());
+    // Emits a signal to say rows have been added.
+    emit endRemoveRows();
 }
 
 
