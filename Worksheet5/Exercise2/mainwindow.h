@@ -19,7 +19,8 @@ public:
 public slots:
 
     void handleAddButton();
-
+    void handleEditButton();
+    void handleRemoveButton();
 
 signals:
     void statusUpdateMessage( const QString & message, int timeout );
