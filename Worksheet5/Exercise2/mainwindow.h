@@ -22,6 +22,7 @@ class MainWindow : public QMainWindow {
         void handleAddButton();
         void handleEditButton();
         void handleRemoveButton();
+        void handleInsertButton();
 
     signals:
         void statusUpdateMessage( const QString & message, int timeout );

@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect( ui->addButton, &QPushButton::released, this, &MainWindow::handleAddButton );
     connect( ui->editButton, &QPushButton::released, this, &MainWindow::handleEditButton );
     connect( ui->removeButton, &QPushButton::released, this, &MainWindow::handleRemoveButton );
+    connect( ui->insertButton, &QPushButton::released, this, &MainWindow::handleInsertButton );
     connect( this, &MainWindow::statusUpdateMessage, ui->statusBar, &QStatusBar::showMessage );
 }
 
@@ -28,11 +29,28 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+void MainWindow::handleInsertButton() {
+    StockItem item;
+    EditItemDialog dialog( this );
+    QModelIndexList selectedList;
+    selectedList = ui->listView->selectionModel()->selectedIndexes();
+
+    if( selectedList.length() == 1 ) {
+        // selectedList is a list of all selected items in the listView. Since we set its
+        // behaviour to single selection, were only interested in the first selecteded item.
+        stockList.insertItem(item,selectedList[0]);
+        emit statusUpdateMessage( QString("Insert button was clicked"), 0 );
+    } else {
+        emit statusUpdateMessage( QString("No item selected to remove!"), 0 );
+    }
+}
+
 void MainWindow::handleAddButton() {
     StockItem item;
     stockList.addItem( item );
     emit statusUpdateMessage( QString("Add button was clicked"), 0 );
 }
+
 void MainWindow::handleEditButton() {
     EditItemDialog dialog( this );
     QModelIndexList selectedList;
@@ -51,9 +69,6 @@ void MainWindow::handleEditButton() {
 }
 
 void MainWindow::handleRemoveButton() {
-    //StockItem item;
-    //stockList.removeItem( item );
-    //emit statusUpdateMessage( QString("Remove button was clicked"), 0 );
 
     EditItemDialog dialog( this );
     QModelIndexList selectedList;

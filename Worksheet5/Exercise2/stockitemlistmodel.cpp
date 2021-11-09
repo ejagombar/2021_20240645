@@ -36,7 +36,14 @@ void StockItemListModel::addItem( const StockItem & s ) {
 
 
 void StockItemListModel::insertItem( const StockItem &s, const QModelIndex & index ) {
-    //?? (same as add item)
+
+
+    // This emits a signal to warn the listView that extra rows will be added
+    emit beginInsertRows( QModelIndex(), index.row(), index.row() );
+    // Add the extra item to the list
+    stockItems.insert(stockItems.begin()+index.row()+1,s);
+    // Emits a signal to say rows have been added.
+    emit endInsertRows();
 }
 
 
