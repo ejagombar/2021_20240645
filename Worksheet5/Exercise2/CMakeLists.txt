@@ -17,13 +17,12 @@ set( CMAKE_AUTOUIC ON )
 set( CMAKE_AUTORCC ON )
 
 
-
 # Find the Qt widgets package. This locates the relevant include and
 # lib directories, and the necessary static libraries for linking.
 find_package( Qt6Widgets )
 
 # Same as previously: define the executable and it's sources.
-add_executable( hello_qt2 WIN32 main.cpp mainwindow.cpp mainwindow.h mainwindow.ui edititemdialog.cpp edititemdialog.h edititemdialog.ui stockitem.cpp stockitem.h stockitemlistmodel.h stockitemlistmodel.cpp)
+add_executable( hello_qt2 WIN32 main.cpp mainwindow.cpp mainwindow.h mainwindow.ui edititemdialog.cpp edititemdialog.h edititemdialog.ui stockitem.cpp stockitem.h stockitemlistmodel.h stockitemlistmodel.cpp resource.qrc)
 
 # Tell CMake that the executable depends on the Qt::Widget libraries.
 target_link_libraries( hello_qt2 Qt6::Widgets )

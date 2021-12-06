@@ -27,6 +27,8 @@ class StockItemListModel : public QAbstractListModel {
 
         // to allow accessing stored list item properties
         StockItem getItem( const QModelIndex &index ) const;
+        StockItem getItem(int index) const;
+        int getLength();
 
     private:
         std::vector<StockItem> stockItems;

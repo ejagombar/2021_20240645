@@ -93,6 +93,10 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="saveAction">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/save.png</normaloff>images/save.png</iconset>
+   </property>
    <property name="text">
     <string>Save</string>
    </property>

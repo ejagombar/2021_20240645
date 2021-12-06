@@ -73,4 +73,14 @@ StockItem StockItemListModel::getItem( const QModelIndex & index ) const {
     return stockItems[index.row()];
     return StockItem();
 }
+
+StockItem StockItemListModel::getItem(int index ) const {
+    if( index >= 0 && index < stockItems.size() )
+        return stockItems[index];
+    return StockItem();
+}
+
+int StockItemListModel::getLength() {
+    return stockItems.size();
+}
 // ---------------------------------------------------------------------

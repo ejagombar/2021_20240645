@@ -6,6 +6,8 @@
 #include <QMessageBox>
 #include "stockitemlistmodel.h"
 #include <QFileDialog>
+#include <QFile>
+#include <QTextStream>
 
 
 
@@ -18,13 +20,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Tell this list view to only accept single selections
     ui->listView->setSelectionBehavior( QAbstractItemView::SelectItems );
     // Connect the released() signal of the addButton object to the handleAddButton slot in this object
-
     connect( ui->addButton, &QPushButton::released, this, &MainWindow::handleAddButton );
     connect( ui->editButton, &QPushButton::released, this, &MainWindow::handleEditButton );
     connect( ui->removeButton, &QPushButton::released, this, &MainWindow::handleRemoveButton );
     connect( ui->insertButton, &QPushButton::released, this, &MainWindow::handleInsertButton );
     connect( ui->saveAction, &QAction::triggered, this, &MainWindow::handleSaveAction );
     connect( this, &MainWindow::statusUpdateMessage, ui->statusBar, &QStatusBar::showMessage );
+
+
+    ui->saveAction->setIcon(QIcon(":/save.png"));
 }
 
 MainWindow::~MainWindow() {
@@ -86,6 +90,9 @@ void MainWindow::handleRemoveButton() {
 
 }
 
+
+
+
 void MainWindow::handleSaveAction() {
     QFileDialog dialog(this);
 
@@ -95,6 +102,25 @@ void MainWindow::handleSaveAction() {
     QStringList fileNames;
     if (dialog.exec())
         fileNames = dialog.selectedFiles();
+
+
+    QString fileName = fileNames[0];// + fileEnding;
+
+    QFile file(fileName);
+    if (file.open(QIODevice::WriteOnly)) {
+        QTextStream stream(&file);
+
+        for (int i = 0; i < stockList.getLength(); i++) {
+            StockItem item = stockList.getItem(i);
+            stream << item.getName() << "/"
+                   << item.getUnitCost() << "/"
+                   <<item.getStockLevel() << "/"
+                  <<item.getReorder() << ";\n";
+
+        }
+
+    }
+
     emit statusUpdateMessage( QString("saved!!!!"), 0 );
 }
 // ---------------------------------------------------------------------
