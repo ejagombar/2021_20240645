@@ -482,6 +482,8 @@ build/**/*
 
 Build/*
 
+*.png
+
 include/*
 lib/*
 bin/*
