@@ -480,9 +480,13 @@ include/divisible/*
 
 build/**/*
 
-Build/*
+Build/
+build/
 
 *.png
+*.qrc
+*.tcl
+
 
 include/*
 lib/*
