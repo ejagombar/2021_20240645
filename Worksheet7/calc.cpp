@@ -1,4 +1,12 @@
 // calc_cmake/calc.cpp --------------------------------
+
+/** @file
+* This file contains the calculator program
+*/
+/** Brief description
+* This description will hopefully be picked up on by doxygen
+*/
+
 #include <sstream>
 #include <iostream>
 #include "adder.h"

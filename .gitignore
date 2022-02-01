@@ -485,6 +485,7 @@ build/
 
 *.tcl
 
+html/
 
 include/*
 lib/*
