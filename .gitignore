@@ -483,8 +483,6 @@ build/**/*
 Build/
 build/
 
-*.png
-*.qrc
 *.tcl
 
 
