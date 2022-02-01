@@ -20,6 +20,34 @@ private:
 };
 #endif // MAINWINDOW_H*/
 
+#include <vtkSmartPointer.h>
+#include <vtkCubeSource.h>
+#include <vtkActor.h>
+#include <vtkProperty.h>
+#include <vtkCamera.h>
+#include <vtkPolyData.h>
+#include <vtkDataSetMapper.h>
+#include <vtkRenderWindow.h>
+#include <vtkRenderWindowInteractor.h>
+#include <vtkRenderer.h>
+#include <vtkNamedColors.h>
+#include <vtkNew.h>
+#include <vtkGenericOpenGLRenderWindow.h>
+#include <QFileDialog>
+
+#include <vtkNamedColors.h>
+#include <vtkNew.h>
+#include <vtkPolyData.h>
+#include <vtkPolyDataMapper.h>
+#include <vtkProperty.h>
+#include <vtkRenderWindow.h>
+#include <vtkRenderWindowInteractor.h>
+#include <vtkRenderer.h>
+#include <vtkSTLReader.h>
+
+#include <vtkArrowSource.h>
+#include <vtkConeSource.h>
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -40,10 +68,18 @@ public:
 public slots:
 
     void HandleChangeColourBtn();
-
+    void HandleChangeBackgroundBtn();
+    void HandleResetView();
+    void HandleChangeModel();
+    void HandleActionFileSave();
+    void HandleActionFileOpen();
 
 private:
     Ui::MainWindow *ui;
+    vtkSmartPointer<vtkRenderer> renderer;
+    vtkSmartPointer<vtkActor> actor;
+    vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
+    //vtkSmartPointer<vtkNamedColors> colors
 };
 
 #endif // MAINWINDOW_H
