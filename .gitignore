@@ -483,7 +483,7 @@ build/**/*
 Build/
 build/
 
-build-ModelProgram-Desktop_Qt_6_2_0_MSVC2019_64bit-Debug/
+##build-ModelProgram-Desktop_Qt_6_2_0_MSVC2019_64bit-Debug/
 
 *.tcl
 
