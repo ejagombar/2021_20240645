@@ -6,6 +6,6 @@ branches:
 
 # Build your code
 script:
-  - cmake
+  - cmake .
   - make
   - make test
