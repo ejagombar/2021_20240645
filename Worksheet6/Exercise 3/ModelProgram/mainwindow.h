@@ -38,6 +38,7 @@ private:
 #include <QFileDialog>
 #include <vtkShrinkFilter.h>
 #include <vtkClipDataSet.h>
+#include <QColorDialog>
 
 #include <vtkNamedColors.h>
 #include <vtkNew.h>
@@ -77,6 +78,7 @@ public slots:
     void HandleChangeModel();
     void HandleActionFileSave();
     void HandleActionFileOpen();
+    void HandleCheckBox();
 
 
 private:
@@ -92,6 +94,7 @@ private:
     vtkNew<vtkShrinkFilter> shrinkSphere;
 
     int currentModel = 1;
+    int currentShrink = 0;
     //vtkSmartPointer<vtkNamedColors> colors
 };
 

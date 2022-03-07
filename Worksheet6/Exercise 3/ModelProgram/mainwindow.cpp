@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect( ui->actionFileSave, &QAction::triggered, this, &MainWindow::HandleActionFileSave );
     connect( ui->actionFileOpen, &QAction::triggered, this, &MainWindow::HandleActionFileOpen );
     connect( ui->ChangeModelBtn, &QPushButton::released, this, &MainWindow::HandleChangeModel );
+    connect( ui->ShrinkCheckBox, &QCheckBox::stateChanged, this, &MainWindow::HandleCheckBox );
 
     // Now need to create a VTK render window and link it to the QtVTK widget
 
@@ -37,9 +38,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     shrinkCone->SetInputConnection(coneSource->GetOutputPort());
     shrinkSphere->SetInputConnection(sphereSource->GetOutputPort());
 
-    shrinkSphere->SetShrinkFactor(.9);
-    shrinkCone->SetShrinkFactor(.9);
-    shrinkCube->SetShrinkFactor(.9);
+    shrinkSphere->SetShrinkFactor(1);
+    shrinkCone->SetShrinkFactor(1);
+    shrinkCube->SetShrinkFactor(1);
 
     // Create a mapper that will hold the cube's geometry in a format suitable for rendering
     vtkSmartPointer<vtkDataSetMapper> cubeMapper = vtkSmartPointer<vtkDataSetMapper>::New();
@@ -96,17 +97,29 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 void MainWindow::HandleChangeColourBtn()
 {
-    vtkSmartPointer<vtkNamedColors> colors = vtkSmartPointer<vtkNamedColors>::New();
-    actorCube->GetProperty()->SetColor( colors->GetColor3d("Green").GetData() );
-    actorCone->GetProperty()->SetColor( colors->GetColor3d("Green").GetData() );
-    actorSphere->GetProperty()->SetColor( colors->GetColor3d("Green").GetData() );
+
+    QColor ColourDialog = QColorDialog::getColor();
+    float Red,Green,Blue = 0;
+    Red=ColourDialog.redF();
+    Green=ColourDialog.greenF();
+    Blue=ColourDialog.blueF();
+
+    actorCube->GetProperty()->SetColor( Red,Green,Blue  );
+    actorCone->GetProperty()->SetColor( Red,Green,Blue  );
+    actorSphere->GetProperty()->SetColor(  Red,Green,Blue  );
     renderWindow->Render();
+
 }
 
 void MainWindow::HandleChangeBackgroundBtn()
 {
-    vtkSmartPointer<vtkNamedColors> colors = vtkSmartPointer<vtkNamedColors>::New();
-    renderer->SetBackground( colors->GetColor3d("ffffff").GetData() );
+    QColor ColourDialog = QColorDialog::getColor();
+    float Red,Green,Blue = 0;
+    Red=ColourDialog.redF();
+    Green=ColourDialog.greenF();
+    Blue=ColourDialog.blueF();
+
+    renderer->SetBackground( Red,Green,Blue );
     renderWindow->Render();
 }
 
@@ -123,6 +136,31 @@ void MainWindow::HandleResetView()
     renderWindow->Render();
 }
 
+void MainWindow::HandleCheckBox()
+{
+    if (currentShrink == 0)
+    {
+        shrinkSphere->SetShrinkFactor(.7);
+        shrinkCone->SetShrinkFactor(.7);
+        shrinkCube->SetShrinkFactor(.7);
+        currentShrink = 1;
+    }
+    else if (currentShrink == 1)
+    {
+        shrinkSphere->SetShrinkFactor(1);
+        shrinkCone->SetShrinkFactor(1);
+        shrinkCube->SetShrinkFactor(1);
+        currentShrink = 0;
+    }
+
+
+    shrinkSphere -> Update();
+    shrinkCone -> Update();
+    shrinkCube -> Update();
+
+    renderWindow->Render();
+
+}
 
 void MainWindow::HandleChangeModel()
 {
