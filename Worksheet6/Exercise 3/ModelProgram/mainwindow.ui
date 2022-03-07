@@ -81,19 +81,6 @@
      </item>
     </layout>
    </widget>
-   <widget class="QCheckBox" name="checkBox">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>520</y>
-      <width>121</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Shrink Filter</string>
-    </property>
-   </widget>
    <widget class="QSlider" name="horizontalSlider">
     <property name="geometry">
      <rect>
@@ -120,7 +107,7 @@
      <string>Change Light View</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox_2">
+   <widget class="QCheckBox" name="ClipCheckBox">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -131,6 +118,19 @@
     </property>
     <property name="text">
      <string>Clip Filter</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="ShrinkCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>520</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Shrink Factor</string>
     </property>
    </widget>
   </widget>

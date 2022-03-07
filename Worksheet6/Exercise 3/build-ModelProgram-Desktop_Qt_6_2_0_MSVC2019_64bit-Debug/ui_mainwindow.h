@@ -39,17 +39,17 @@ public:
     QWidget *centralwidget;
     QWidget *layoutWidget;
     QVBoxLayout *verticalLayout;
-    QVTKOpenGLStereoWidget *qvtkWidget;
+    QVTKOpenGLWidget *qvtkWidget;
     QHBoxLayout *horizontalLayout;
     QPushButton *ResetViewBtn;
     QPushButton *ChangeColourBtn;
     QPushButton *ChangeBackgroundBtn;
     QPushButton *ChangeModelBtn;
     QSpacerItem *horizontalSpacer;
-    QCheckBox *checkBox;
     QSlider *horizontalSlider;
     QLabel *label;
-    QCheckBox *checkBox_2;
+    QCheckBox *ClipCheckBox;
+    QCheckBox *ShrinkCheckBox;
     QMenuBar *menubar;
     QMenu *menuFile;
     QStatusBar *statusbar;
@@ -88,7 +88,7 @@ public:
         verticalLayout = new QVBoxLayout(layoutWidget);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
-        qvtkWidget = new QVTKOpenGLStereoWidget(layoutWidget);
+        qvtkWidget = new QVTKOpenGLWidget(layoutWidget);
         qvtkWidget->setObjectName(QString::fromUtf8("qvtkWidget"));
         qvtkWidget->setMinimumSize(QSize(600, 400));
 
@@ -123,9 +123,6 @@ public:
 
         verticalLayout->addLayout(horizontalLayout);
 
-        checkBox = new QCheckBox(centralwidget);
-        checkBox->setObjectName(QString::fromUtf8("checkBox"));
-        checkBox->setGeometry(QRect(10, 520, 121, 20));
         horizontalSlider = new QSlider(centralwidget);
         horizontalSlider->setObjectName(QString::fromUtf8("horizontalSlider"));
         horizontalSlider->setGeometry(QRect(130, 490, 481, 22));
@@ -133,9 +130,12 @@ public:
         label = new QLabel(centralwidget);
         label->setObjectName(QString::fromUtf8("label"));
         label->setGeometry(QRect(10, 490, 111, 21));
-        checkBox_2 = new QCheckBox(centralwidget);
-        checkBox_2->setObjectName(QString::fromUtf8("checkBox_2"));
-        checkBox_2->setGeometry(QRect(10, 550, 81, 20));
+        ClipCheckBox = new QCheckBox(centralwidget);
+        ClipCheckBox->setObjectName(QString::fromUtf8("ClipCheckBox"));
+        ClipCheckBox->setGeometry(QRect(10, 550, 81, 20));
+        ShrinkCheckBox = new QCheckBox(centralwidget);
+        ShrinkCheckBox->setObjectName(QString::fromUtf8("ShrinkCheckBox"));
+        ShrinkCheckBox->setGeometry(QRect(10, 520, 121, 20));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
@@ -174,9 +174,9 @@ public:
         ChangeColourBtn->setText(QCoreApplication::translate("MainWindow", "Change Model Colour", nullptr));
         ChangeBackgroundBtn->setText(QCoreApplication::translate("MainWindow", "Change Background Colour", nullptr));
         ChangeModelBtn->setText(QCoreApplication::translate("MainWindow", "Change Model", nullptr));
-        checkBox->setText(QCoreApplication::translate("MainWindow", "Shrink Filter", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "Change Light View", nullptr));
-        checkBox_2->setText(QCoreApplication::translate("MainWindow", "Clip Filter", nullptr));
+        ClipCheckBox->setText(QCoreApplication::translate("MainWindow", "Clip Filter", nullptr));
+        ShrinkCheckBox->setText(QCoreApplication::translate("MainWindow", "Shrink Factor", nullptr));
         menuFile->setTitle(QCoreApplication::translate("MainWindow", "File", nullptr));
         toolBar->setWindowTitle(QCoreApplication::translate("MainWindow", "toolBar", nullptr));
     } // retranslateUi

@@ -22,6 +22,8 @@ private:
 
 #include <vtkSmartPointer.h>
 #include <vtkCubeSource.h>
+#include <vtkConeSource.h>
+#include <vtkSphereSource.h>
 #include <vtkActor.h>
 #include <vtkProperty.h>
 #include <vtkCamera.h>
@@ -34,6 +36,8 @@ private:
 #include <vtkNew.h>
 #include <vtkGenericOpenGLRenderWindow.h>
 #include <QFileDialog>
+#include <vtkShrinkFilter.h>
+#include <vtkClipDataSet.h>
 
 #include <vtkNamedColors.h>
 #include <vtkNew.h>
@@ -46,7 +50,7 @@ private:
 #include <vtkSTLReader.h>
 
 #include <vtkArrowSource.h>
-#include <vtkConeSource.h>
+
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -74,11 +78,20 @@ public slots:
     void HandleActionFileSave();
     void HandleActionFileOpen();
 
+
 private:
     Ui::MainWindow *ui;
-    vtkSmartPointer<vtkRenderer> renderer;
-    vtkSmartPointer<vtkActor> actor;
+    vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
     vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
+    vtkSmartPointer<vtkActor> actorCube;
+    vtkSmartPointer<vtkActor> actorCone;
+    vtkSmartPointer<vtkActor> actorSphere;
+
+    vtkNew<vtkShrinkFilter> shrinkCone;
+    vtkNew<vtkShrinkFilter> shrinkCube;
+    vtkNew<vtkShrinkFilter> shrinkSphere;
+
+    int currentModel = 1;
     //vtkSmartPointer<vtkNamedColors> colors
 };
 
