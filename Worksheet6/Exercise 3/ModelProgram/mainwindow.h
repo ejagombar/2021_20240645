@@ -22,6 +22,8 @@ private:
 
 #include <vtkSmartPointer.h>
 #include <vtkCubeSource.h>
+#include <vtkConeSource.h>
+#include <vtkSphereSource.h>
 #include <vtkActor.h>
 #include <vtkProperty.h>
 #include <vtkCamera.h>
@@ -34,6 +36,11 @@ private:
 #include <vtkNew.h>
 #include <vtkGenericOpenGLRenderWindow.h>
 #include <QFileDialog>
+#include <vtkShrinkFilter.h>
+#include <vtkClipDataSet.h>
+#include <QColorDialog>
+#include <vtkPlane.h>
+#include <vtkClipDataSet.h>
 
 #include <vtkNamedColors.h>
 #include <vtkNew.h>
@@ -46,7 +53,7 @@ private:
 #include <vtkSTLReader.h>
 
 #include <vtkArrowSource.h>
-#include <vtkConeSource.h>
+
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -73,12 +80,33 @@ public slots:
     void HandleChangeModel();
     void HandleActionFileSave();
     void HandleActionFileOpen();
+    void HandleCheckBox();
+    void HandleCheckBox2();
+
 
 private:
     Ui::MainWindow *ui;
-    vtkSmartPointer<vtkRenderer> renderer;
-    vtkSmartPointer<vtkActor> actor;
+    vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
     vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
+    vtkSmartPointer<vtkActor> actorCube;
+    vtkSmartPointer<vtkActor> actorCone;
+    vtkSmartPointer<vtkActor> actorSphere;
+
+
+    vtkNew<vtkShrinkFilter> shrinkCone;
+    vtkNew<vtkShrinkFilter> shrinkCube;
+    vtkNew<vtkShrinkFilter> shrinkSphere;
+
+    vtkSmartPointer<vtkClipDataSet> CubeClip;
+    vtkSmartPointer<vtkClipDataSet> ConeClip;
+    vtkSmartPointer<vtkClipDataSet> SphereClip;
+    vtkNew<vtkActor> actor;
+    vtkNew<vtkShrinkFilter> shrinkActor;
+    vtkSmartPointer<vtkPlane> planeLeft;
+
+    int currentModel =1;
+    int currentShrink = 0;
+    int currentClip = 0;
     //vtkSmartPointer<vtkNamedColors> colors
 };
 
