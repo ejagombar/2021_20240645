@@ -12,7 +12,6 @@ jobs:
 
 
   
-    # Defines the operating system for the virtual computer
     runs-on: ubuntu-latest
 
     # A list of steps to follow to complete the job (a list of commands to execute on the virtual computer
