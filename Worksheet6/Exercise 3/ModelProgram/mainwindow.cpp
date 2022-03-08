@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect( ui->actionFileOpen, &QAction::triggered, this, &MainWindow::HandleActionFileOpen );
     connect( ui->ChangeModelBtn, &QPushButton::released, this, &MainWindow::HandleChangeModel );
     connect( ui->ShrinkCheckBox, &QCheckBox::stateChanged, this, &MainWindow::HandleCheckBox );
+    connect( ui->ClipCheckBox, &QCheckBox::stateChanged, this, &MainWindow::HandleCheckBox2 );
 
     // Now need to create a VTK render window and link it to the QtVTK widget
 
@@ -30,13 +31,39 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     vtkSmartPointer<vtkConeSource> coneSource = vtkSmartPointer<vtkConeSource>::New();
     vtkSmartPointer<vtkSphereSource> sphereSource = vtkSmartPointer<vtkSphereSource>::New();
 
-    //vtkNew<vtkShrinkFilter> shrinkCone;
-    //vtkNew<vtkShrinkFilter> shrinkCube;
-    //vtkNew<vtkShrinkFilter> shrinkSphere;
+    /*vtkSmartPointer<vtkLight> light = vtkSmartPointer<vtkLight>::New();
 
-    shrinkCube->SetInputConnection(cubeSource->GetOutputPort());
-    shrinkCone->SetInputConnection(coneSource->GetOutputPort());
-    shrinkSphere->SetInputConnection(sphereSource->GetOutputPort());
+    light->SetLightTypeToSceneLight();
+    light->SetPosition( 8, 8, 15 );
+    light->SetPositional( true );
+    light->SetConeAngle( 10 );
+    light->SetFocalPoint( 0, 0, 0 );
+    light->SetDiffuseColor( 1, 1, 1 );
+    light->SetAmbientColor( 1, 1, 1 );
+    light->SetSpecularColor( 1, 1, 1 );
+    light->SetIntensity( 0.7 );*/
+
+    planeLeft = vtkSmartPointer<vtkPlane>::New();
+    planeLeft->SetOrigin(-99.0, -100.0, -100.0);
+    planeLeft->SetNormal(-1.0, 1.0, 0.0);
+
+    CubeClip = vtkSmartPointer<vtkClipDataSet>::New();
+    ConeClip = vtkSmartPointer<vtkClipDataSet>::New();
+    SphereClip = vtkSmartPointer<vtkClipDataSet>::New();
+
+    CubeClip->SetInputConnection( cubeSource->GetOutputPort() );
+    ConeClip->SetInputConnection( coneSource->GetOutputPort() ) ;
+    SphereClip->SetInputConnection( sphereSource->GetOutputPort() ) ;
+
+
+    CubeClip->SetClipFunction( planeLeft.Get() );
+    ConeClip->SetClipFunction( planeLeft.Get() );
+    SphereClip->SetClipFunction( planeLeft.Get() );
+
+
+    shrinkCube->SetInputConnection(CubeClip->GetOutputPort());
+    shrinkCone->SetInputConnection(ConeClip->GetOutputPort());
+    shrinkSphere->SetInputConnection(SphereClip->GetOutputPort());
 
     shrinkSphere->SetShrinkFactor(1);
     shrinkCone->SetShrinkFactor(1);
@@ -80,7 +107,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     renderer->AddActor(actorCube);
     //renderer->AddActor(actorSphere);
 
-    renderer->SetBackground( colors->GetColor3d("Silver").GetData() );
+    //renderer->AddLight( light );
+
+    renderer->SetBackground( colors->GetColor3d("Orange").GetData() );
 
     // Setup the renderers's camera
     renderer->ResetCamera();
@@ -128,12 +157,9 @@ void MainWindow::HandleResetView()
     renderer->ResetCamera();
     renderer->GetActiveCamera()->Azimuth(30);
     renderer->GetActiveCamera()->Elevation(30);
+    renderer->ResetCameraClippingRange();
     renderWindow->Render();
 
-    renderer->AddActor(actorSphere);
-    renderer->RemoveActor(actorCube);
-
-    renderWindow->Render();
 }
 
 void MainWindow::HandleCheckBox()
@@ -158,30 +184,56 @@ void MainWindow::HandleCheckBox()
     shrinkCone -> Update();
     shrinkCube -> Update();
 
+    ConeClip -> Update();
+    CubeClip -> Update();
+    SphereClip -> Update();
+
     renderWindow->Render();
 
 }
 
+void MainWindow::HandleCheckBox2()
+{
+    if (currentClip == 1)
+    {
+        planeLeft->SetOrigin(100.0, 100.0, 100.0);
+        planeLeft->SetNormal(-1.0, 0.0, 0.0);
+        currentClip = 0;
+    }
+    else if (currentClip == 0)
+    {
+        planeLeft->SetOrigin(0.0, 0.0, 0.0);
+        planeLeft->SetNormal(-1.0, 0.0, 0.0);
+        currentClip = 1;
+    }
+
+    ConeClip -> Update();
+    CubeClip -> Update();
+    SphereClip -> Update();
+
+
+    shrinkSphere -> Update();
+    shrinkCone -> Update();
+    shrinkCube -> Update();
+
+    renderWindow->Render();
+}
+
 void MainWindow::HandleChangeModel()
 {
+    renderer ->RemoveAllViewProps();
     if (currentModel == 3){
         renderer->AddActor(actorCube);
-        renderer->RemoveActor(actorCone);
-        renderer->RemoveActor(actorSphere);
         currentModel = 1;
     }
 
     else if (currentModel == 2){
         renderer->AddActor(actorCone);
-        renderer->RemoveActor(actorSphere);
-        renderer->RemoveActor(actorCube);
         currentModel = 3;
     }
 
     else if (currentModel == 1){
         renderer->AddActor(actorSphere);
-        renderer->RemoveActor(actorCone);
-        renderer->RemoveActor(actorCube);
         currentModel = 2;
     }
 
@@ -204,9 +256,16 @@ void MainWindow::HandleActionFileOpen()
 
       // Visualize
       vtkNew<vtkPolyDataMapper> mapper;
-      mapper->SetInputConnection(reader->GetOutputPort());
 
       vtkNew<vtkActor> actor;
+
+
+
+      shrinkActor->SetInputConnection(reader->GetOutputPort());
+      shrinkActor->SetShrinkFactor(1);
+
+      mapper->SetInputConnection( reader->GetOutputPort() );
+
       actor->SetMapper(mapper);
       actor->GetProperty()->SetDiffuse(0.8);
       actor->GetProperty()->SetDiffuseColor(
@@ -219,7 +278,6 @@ void MainWindow::HandleActionFileOpen()
       //renderWindowInteractor->SetRenderWindow(renderWindow);
 
       renderer->AddActor(actor);
-      renderer->SetBackground(colors->GetColor3d("DarkOliveGreen").GetData());
 
       renderer->RemoveActor(actorCone);
       renderer->RemoveActor(actorSphere);
