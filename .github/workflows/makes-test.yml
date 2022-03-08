@@ -24,7 +24,8 @@ jobs:
       run: cmake -B ${{github.workspace}}/build Worksheet7/ # The command to run at this step
     # Step 2: Run make to build (remember - use Linux build command)
     - name: Build
-      working-directory: ${{github.workspace}}/build # cd to the build directory before runningrun: make
+      working-directory: ${{github.workspace}}/build # cd to the build directory before running
+      run: make
     # Step 3: Run the tests
     - name: Test
       working-directory: ${{github.workspace}}/build
