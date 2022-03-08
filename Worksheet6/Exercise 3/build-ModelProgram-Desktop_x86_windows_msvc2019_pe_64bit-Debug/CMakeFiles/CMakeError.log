@@ -1,0 +1,11 @@
+Determining if the include file pthread.h exists failed with the following output:
+Change Dir: C:/2021_20240645/Worksheet6/Exercise 3/build-ModelProgram-Desktop_x86_windows_msvc2019_pe_64bit-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/PROGRA~2/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_f073c && [1/2] Building CXX object CMakeFiles\cmTC_f073c.dir\CheckIncludeFile.cxx.obj
+FAILED: CMakeFiles/cmTC_f073c.dir/CheckIncludeFile.cxx.obj 
+"C:\PROGRA~2\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64\cl.exe"  /nologo /TP   /DWIN32 /D_WINDOWS /W3 /GR /EHsc  /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\cmTC_f073c.dir\CheckIncludeFile.cxx.obj /FdCMakeFiles\cmTC_f073c.dir\ /FS -c "C:\2021_20240645\Worksheet6\Exercise 3\build-ModelProgram-Desktop_x86_windows_msvc2019_pe_64bit-Debug\CMakeFiles\CMakeTmp\CheckIncludeFile.cxx"
+C:\2021_20240645\Worksheet6\Exercise 3\build-ModelProgram-Desktop_x86_windows_msvc2019_pe_64bit-Debug\CMakeFiles\CMakeTmp\CheckIncludeFile.cxx(1): fatal error C1083: Cannot open include file: 'pthread.h': No such file or directory
+ninja: build stopped: subcommand failed.
+
+
+
